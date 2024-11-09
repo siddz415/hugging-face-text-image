@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to Video Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { max-width: 600px; margin: 50px auto; text-align: center; }
+        .upload { margin: 20px 0; }
+        .btn { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Image to Video Generator</h1>
+        <form id="uploadForm">
+            <input type="file" name="image" accept="image/*" required class="upload">
+            <button type="submit" class="btn">Generate Video</button>
+        </form>
+        <div id="videoLink" style="display:none; margin-top: 20px;">
+            <a id="downloadLink" href="#" download="generated.mp4">Download Generated Video</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append("image", document.querySelector('input[type="file"]').files[0]);
+
+            const response = await fetch('http://127.0.0.1:5000/generate', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                document.getElementById('downloadLink').href = url;
+                document.getElementById('videoLink').style.display = 'block';
+            } else {
+                alert("Error generating video.");
+            }
+        };
+    </script>
+</body>
+</html>
