@@ -14,12 +14,6 @@ Clone the Repository:
 
 bash
 Copy code
-git clone https://github.com/your-username/image-to-video-generator.git
-cd image-to-video-generator
-Install Dependencies:
-
-bash
-Copy code
 pip install flask torch diffusers pillow
 Set up Hugging Face Diffusers Model:
 
